@@ -5,9 +5,15 @@ binLength = int(input("Number of bits: "))
 class Data:
 
     # default constructor
-    def __init__(self, num):
-        self.num = num
-        self.bin = format(num, '0' + str(binLength) + 'b')
+    def __init__(self, numStr):
+        try:
+            self.num = int(numStr)
+            self.bin = format(int(numStr), '0' + str(binLength) + 'b')
+            print(numStr + " treated as integer")
+        except ValueError:
+            self.num = -1
+            self.bin = numStr
+            print(numStr + " treated as string")
         self.parents = []
 
     # return the number of "1" digits in the binary representation of the number
@@ -20,4 +26,12 @@ class Data:
     
     # return printable string with all of the data
     def toString(self):
-        return str(self.num)+ " (" + self.bin  + ") "
+        output = ""
+        if self.num != -1:
+            output += str(self.num)
+        else:
+            output += " "
+
+        output += " (" + self.bin  + ") "
+        return output
+
