@@ -9,11 +9,9 @@ class Data:
         try:
             self.num = int(numStr)
             self.bin = format(int(numStr), '0' + str(binLength) + 'b')
-            print(numStr + " treated as integer")
         except ValueError:
             self.num = -1
             self.bin = numStr
-            print(numStr + " treated as string")
         self.parents = []
 
     # return the number of "1" digits in the binary representation of the number
