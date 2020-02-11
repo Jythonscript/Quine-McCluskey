@@ -14,26 +14,20 @@ to get the binary form of the number as a string, use objectName.bin
     if objectName.bin[0] == "1":
 """
 
-# check if two data objects can be combined
-def canCombine(data1, data2):
-    # make sure that dashes are in the same spots in both
-    for i in range(0, len(data1.bin)):
-        if (data1.bin[i] == "-") != (data2.bin[i] == "-"):
-            return False
-
-    # check for number of ones
-    diffOnes = abs(data1.numOnes() - data2.numOnes())
-    if diffOnes == 1:
-        # check for only one different character
-        diffs = 0
-        for i in range(0, len(data1.bin)):
-            if data1.bin[i] != data2.bin[i]:
-                diffs += 1
-            if diffs > 1:
-                return False
-        return True
-    else:
-        return False
+# print the nested items in a list containing lists of Data objects
+def printBigList(bigList):
+    print("[", end="")
+    for i in range(0, len(bigList)):
+        l = bigList[i]
+        print("[", end="")
+        for j in range(0, len(l)):
+            print(l[j].bin, end="")
+            if j != len(l) - 1:
+                print(",", end="")
+        print("]", end="")
+        if i != len(bigList) - 1:
+            print(", ", end="")
+    print("]")
 
 print("\nEnter numbers below (press enter when done)")
 
@@ -57,9 +51,28 @@ for data in myList:
 
 print("")
 
-# iterate through every unique pair
+# make nested list
+bigList = [[]]
+
+for i in range(0, binLength):
+    bigList.append([])
+
 for i in range(0, len(myList)):
-    for j in range(i, len(myList)):
-        # check if they can be combined
-        if i != j and canCombine(myList[i], myList[j]):
-            print(myList[i].bin + " and " + myList[j].bin + " can be combined")
+    index = myList[i].numOnes()
+    bigList[index].append(myList[i])
+
+print("Entire list:")
+printBigList(bigList)
+print("")
+
+# iterate through every pair in adjacent lists of bigList
+for i in range(0, len(bigList) - 1):
+    for j in range(0, len(bigList[i])):
+        for k in range(0, len(bigList[i+1])):
+            # data objects to compare
+            #print("i = " + str(i) + ", j = " + str(j) + ", k = " + str(k))
+            data1 = bigList[i][j]
+            data2 = bigList[i + 1][k]
+            # check if they can be combined
+            if canCombine(data1, data2):
+                print(data1.bin + " and " + data2.bin + " can be combined")

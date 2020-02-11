@@ -33,3 +33,24 @@ class Data:
         output += " (" + self.bin  + ") "
         return output
 
+
+# check if two data objects can be combined
+def canCombine(data1, data2):
+    # make sure that dashes are in the same spots in both
+    for i in range(0, len(data1.bin)):
+        if (data1.bin[i] == "-") != (data2.bin[i] == "-"):
+            return False
+
+    # check for number of ones
+    diffOnes = abs(data1.numOnes() - data2.numOnes())
+    if diffOnes == 1:
+        # check for only one different character
+        diffs = 0
+        for i in range(0, len(data1.bin)):
+            if data1.bin[i] != data2.bin[i]:
+                diffs += 1
+            if diffs > 1:
+                return False
+        return True
+    else:
+        return False
